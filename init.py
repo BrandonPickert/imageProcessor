@@ -188,6 +188,6 @@ def main():
     #svg_image = rgba_image_to_svg_pixels(image)
     with open("examples/angular.svg", "w") as text_file:
         text_file.write(svg_image)
-
+    print("hello")
 if __name__ == '__main__':
     main()
