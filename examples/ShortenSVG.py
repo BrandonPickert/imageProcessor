@@ -41,8 +41,41 @@ for i in delete_indices:
 	del d['svg']['path'][i]
 
 new_json_image = json.dumps(d, indent=1)
-# print(d)
-print(json.dumps(d, indent=4))
+# print(d['svg'].keys())
+# print(json.dumps(d['svg']['path'], indent=4))
+
+# values = d['svg'].values()
+# print(values)
+# items = d.items()
+# for key, value in d['svg'].items():
+# 	print(f"{key}: {value}")
+# for path in d['svg']['path']:
+# 	print(path)
+path_dict = []
+for path in d['svg']['path']:
+	for i in path.values():
+		path_dict.append(i)
+
+# print(path_dict)
+svg_version = d['svg']['@version']
+svg_viewBox = d['svg']['@viewBox']
+svg_xmlns = d['svg']['@xmlns']
+svg_string = f'<svg version="{svg_version}" viewBox="{svg_viewBox}" xmlns="{svg_xmlns}">\n'  # <path d="m32 64v-1h-1v1z" fill="#e8002e" fill-opacity=".043"/>
+counter = 0
+for i in path_dict:
+	if counter == 0 or counter % 2 == 0:
+		svg_string += f'<path d="{i}" fill="'
+		counter += 1
+	else:
+		svg_string += f'{i}"/>\n'
+		counter += 1
+
+svg_string += "</svg>"
+print(svg_string)
+with open("cool.svg", 'w') as file:
+	file.write(svg_string)
+
+
 
 json_data = json.loads(json.dumps(d, indent=1))
 path_list = [path for path in json_data['svg']['path']]
